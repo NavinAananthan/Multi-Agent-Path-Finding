@@ -41,3 +41,27 @@ class PrioritizedPlanningSolver(object):
             if path is None:
                 raise BaseException("No solution")
             
+            for time,loc in enumerate(path):
+                # create a new constraint with the current path location for all agents except the current one
+                for a in range(self.num_of_agents):
+                    if a!=i:
+                        # Vertex Constraint eg(Other agents cannot be at (1, 1) at time 0)
+                        constraints.append({
+                            'agent': a,
+                            'loc': [loc],
+                            'timestep': time,
+                            'final': time == len(path) - 1
+                        })
+                        # Edge Constarint eg(Other agents cannot move from (1, 1) to (1, 2) at time 1)
+                        if time < len(path) - 1:
+                            next_loc = path[path.index(loc)+1]
+                            constraints.append({
+                                'agent':a,
+                                'loc': [next_loc,loc],
+                                'timestep': time+1,
+                                'final': False
+                            })
+
+
+
+            

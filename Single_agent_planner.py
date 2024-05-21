@@ -10,6 +10,27 @@ def move(loc,direction):
     return loc[0]+directions[direction][0] , loc[1]+directions[direction][1]
 
 
+def build_constarint_table(constraints, agent):
+    '''
+    Return a table that constains the list of constraints of the given agent for each time step.
+    '''
+    c_table = dict()
+
+    for c in constraints:
+        if not 'positive' in c.keys():
+            c['positive'] = False
+        if c['agent'] == agent:
+            timestep = c['timestep']
+            if timestep not in c_table:
+                c_table[timestep] = [c]
+            else:
+                c_table[timestep].append(c)
+
+
+def pop_node(open_list):
+    _, _, _, curr = heapq.heappop(open_list)
+    return curr
+
 
 def compute_heuristics(map,goal):
     '''
@@ -59,3 +80,19 @@ def a_star(map, start_loc, goal_loc, h_values, agent, constraints):
     This is the implementation of Astar algorithm using constraints we extend it in Space-Time domain
     '''
     
+    open_list = []
+    closed_list = dict()
+    h_value = h_values[start_loc]['cost']
+    c_table = build_constarint_table(constraints,agent)
+
+    root = {'loc':start_loc,'g_val':0,'h_val':h_value,'parent':None,'time':0}
+
+    heapq.heappush(open_list,(root['g_val'] + root['h_val'], root['h_val'], root['loc'], root))
+    closed_list[(start_loc,0)] = root
+    max_map_width = max([len(e) for e in map])
+
+    while len(open_list)>0:
+        curr = pop_node(open_list)
+        
+
+

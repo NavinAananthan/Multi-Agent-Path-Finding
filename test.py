@@ -1,16 +1,5 @@
-from Single_agent_planner import *
+path = [(0,0),(0,1),(0,2)]
 
-grid_map = [
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0],
-        [0, 0, 0, 0]
-    ]
-
-goal = (2, 2)
-
-h_table = compute_heuristics(grid_map,goal)
-
-for key,value in h_table.items():
-    print(f'{key}:{value}')
+for time,loc in enumerate(path):
+    print(time,loc)
 
