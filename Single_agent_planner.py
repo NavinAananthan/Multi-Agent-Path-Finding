@@ -159,7 +159,7 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
 
     heapq.heappush(open_list,(root['g_val'] + root['h_val'], root['h_val'], root['loc'], root))
     closed_list[(start_loc,0)] = root
-    max_map_width = max([len(e) for e in grid_map])
+    #max_map_width = max([len(e) for e in grid_map])
 
     while len(open_list)>0:
         curr = pop_node(open_list)
@@ -205,6 +205,8 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
                     else:
                         closed_list[(neighbour['loc'], neighbour['time'])] = neighbour
                         heapq.heappush(open_list,(neighbour['g_val'] + neighbour['h_val'], neighbour['h_val'], neighbour['loc'], neighbour))
+
+    return None
 
 
                 

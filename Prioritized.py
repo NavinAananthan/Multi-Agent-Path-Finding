@@ -62,6 +62,5 @@ class PrioritizedPlanningSolver(object):
                                 'final': False
                             })
 
+        self.CPU_time = timer.time() - start_time
 
-
-            
