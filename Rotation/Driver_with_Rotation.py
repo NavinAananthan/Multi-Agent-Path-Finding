@@ -96,16 +96,18 @@ def draw_arrow(color, pos, next_pos, start_time, end_time, timestep):
     body_length = CELL_SIZE // 3
     body_width = CELL_SIZE // 12
     head_size = CELL_SIZE // 6
+    pos1 = pos[0]
+    pos2 = pos[1]
     body_rect = [
-        (pos[0] + body_length * math.cos(angle) - body_width * math.sin(angle), pos[1] + body_length * math.sin(angle) + body_width * math.cos(angle)),
-        (pos[0] - body_length * math.cos(angle) - body_width * math.sin(angle), pos[1] - body_length * math.sin(angle) + body_width * math.cos(angle)),
-        (pos[0] - body_length * math.cos(angle) + body_width * math.sin(angle), pos[1] - body_length * math.sin(angle) - body_width * math.cos(angle)),
-        (pos[0] + body_length * math.cos(angle) + body_width * math.sin(angle), pos[1] + body_length * math.sin(angle) - body_width * math.cos(angle))
+        (pos1 + body_length * math.cos(angle) - body_width * math.sin(angle), pos2 + body_length * math.sin(angle) + body_width * math.cos(angle)),
+        (pos1 - body_length * math.cos(angle) - body_width * math.sin(angle), pos2 - body_length * math.sin(angle) + body_width * math.cos(angle)),
+        (pos1 - body_length * math.cos(angle) + body_width * math.sin(angle), pos2 - body_length * math.sin(angle) - body_width * math.cos(angle)),
+        (pos1 + body_length * math.cos(angle) + body_width * math.sin(angle), pos2 + body_length * math.sin(angle) - body_width * math.cos(angle))
     ]
     head = [
-        (pos[0] + body_length * math.cos(angle), pos[1] + body_length * math.sin(angle)),
-        (pos[0] + (body_length + head_size) * math.cos(angle + 2 * math.pi / 3), pos[1] + (body_length + head_size) * math.sin(angle + 2 * math.pi / 3)),
-        (pos[0] + (body_length + head_size) * math.cos(angle - 2 * math.pi / 3), pos[1] + (body_length + head_size) * math.sin(angle - 2 * math.pi / 3))
+        (pos1 + body_length * math.cos(angle), pos[1] + body_length * math.sin(angle)),
+        (pos1 + (body_length + head_size) * math.cos(angle + 2 * math.pi / 3), pos2 + (body_length + head_size) * math.sin(angle + 2 * math.pi / 3)),
+        (pos1 + (body_length + head_size) * math.cos(angle - 2 * math.pi / 3), pos2 + (body_length + head_size) * math.sin(angle - 2 * math.pi / 3))
     ]
     pygame.draw.polygon(SCREEN, color, body_rect)
     pygame.draw.polygon(SCREEN, color, head)
