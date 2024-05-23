@@ -6,7 +6,8 @@ class PrioritizedPlanningSolver(object):
     """A planner that plans for each robot sequentially."""
 
     def __init__(self, my_map, starts, goals, max_time=None):
-        """my_map   - list of lists specifying obstacle positions
+        """
+        my_map      - list of lists specifying obstacle positions
         starts      - [(x1, y1), (x2, y2), ...] list of start locations
         goals       - [(x1, y1), (x2, y2), ...] list of goal locations
         """
@@ -36,10 +37,13 @@ class PrioritizedPlanningSolver(object):
         
         for i in range(self.num_of_agents): # Finding the path for each agent
             path = a_star(self.my_map, self.starts[i], self.goals[i], self.heuristics[i], i, constraints)
+            print(path)
             if timer.time()-start_time>=self.max_time:
                 raise BaseException("Time limit Exceeded")
             if path is None:
                 raise BaseException("No solution")
+            
+            result.append(path)
             
             for time,loc in enumerate(path):
                 # create a new constraint with the current path location for all agents except the current one
@@ -63,4 +67,5 @@ class PrioritizedPlanningSolver(object):
                             })
 
         self.CPU_time = timer.time() - start_time
+        return result
 

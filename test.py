@@ -1,5 +1,17 @@
-path = [(0,0),(0,1),(0,2)]
+from Prioritized import *
 
-for time,loc in enumerate(path):
-    print(time,loc)
 
+grid_map = [
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0]
+    ]
+    
+
+starts = [(2, 0)]
+goals = [(2, 4)]
+
+PPS = PrioritizedPlanningSolver(grid_map,starts,goals)
+print(PPS.find_solution())

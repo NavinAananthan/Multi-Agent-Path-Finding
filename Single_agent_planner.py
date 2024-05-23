@@ -77,7 +77,7 @@ def build_constarint_table(constraints, agent):
     c_table = dict()
 
     for c in constraints:
-        if not 'positive' in c.keys():
+        if not 'positive' in c:
             c['positive'] = False
         if c['agent'] == agent:
             timestep = c['timestep']
@@ -85,6 +85,8 @@ def build_constarint_table(constraints, agent):
                 c_table[timestep] = [c]
             else:
                 c_table[timestep].append(c)
+
+    return c_table
 
 
 def pop_node(open_list):
@@ -149,7 +151,9 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
     open_list = []
     closed_list = dict()
     h_value = h_values[start_loc]['cost']
+    print(h_values)
     c_table = build_constarint_table(constraints,agent)
+
 
     root = {'loc':start_loc,
             'g_val':0,
@@ -159,10 +163,12 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
 
     heapq.heappush(open_list,(root['g_val'] + root['h_val'], root['h_val'], root['loc'], root))
     closed_list[(start_loc,0)] = root
-    #max_map_width = max([len(e) for e in grid_map])
+    max_map_width = max([len(e) for e in grid_map])
 
     while len(open_list)>0:
         curr = pop_node(open_list)
+
+        print(curr)
         
         # Checking the Goal constraints
         if curr['loc'] == goal_loc and not is_goal_constrained(goal_loc,curr['time'],c_table):
@@ -173,17 +179,17 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
             if direction < 4:
                 neighbour_loc = move(curr['loc'],direction)
                 # Check if the neighbour node is inside the grid_map and it is not a obstacle
-                if neighbour_loc[0] < 0 or neighbour_loc[0] >= len(grid_map) or neighbour_loc[1] < 0 or neighbour_loc[1] >= len(grid_map[0]) or grid_map[neighbour_loc[0]][neighbour_loc[1]]:
+                if neighbour_loc[0] < 0 or neighbour_loc[1] < 0 or neighbour_loc[0] >= len(grid_map) or neighbour_loc[1] >= max_map_width or grid_map[neighbour_loc[0]][neighbour_loc[1]]:
                     continue
 
                 neighbour = {
                     'loc':neighbour_loc,
                     'g_val':curr['g_val']+1,
-                    'h_val':h_values[neighbour_loc],
+                    'h_val':h_values[neighbour_loc]['cost'],
                     'parent':curr,
                     'time':curr['time']+1
                 }
-            # This is when the currnode doesnt move and is still
+            # This is when the currnode doesn't move and is still
             else:
                 neighbour = {
                     'loc':curr['loc'],
@@ -202,9 +208,10 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
                     if compare_nodes(neighbour,existing_node):
                         closed_list[(neighbour['loc'], neighbour['time'])] = neighbour
                         heapq.heappush(open_list,(neighbour['g_val'] + neighbour['h_val'], neighbour['h_val'], neighbour['loc'], neighbour))
-                    else:
-                        closed_list[(neighbour['loc'], neighbour['time'])] = neighbour
-                        heapq.heappush(open_list,(neighbour['g_val'] + neighbour['h_val'], neighbour['h_val'], neighbour['loc'], neighbour))
+            else:
+                closed_list[(neighbour['loc'], neighbour['time'])] = neighbour
+                print(neighbour)
+                heapq.heappush(open_list,(neighbour['g_val'] + neighbour['h_val'], neighbour['h_val'], neighbour['loc'], neighbour))
 
     return None
 

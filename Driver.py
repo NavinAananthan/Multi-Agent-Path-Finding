@@ -5,11 +5,12 @@ import numpy as np
 import pygame
 import threading
 from CBS import CBSSolver
+from Prioritized import *
 from pathlib import Path
 
-CELL_SIZE = 25
-GRID_WIDTH = 20
-GRID_HEIGHT = 20
+CELL_SIZE = 100
+GRID_WIDTH = 5
+GRID_HEIGHT = 5
 SCREEN_WIDTH = GRID_WIDTH * CELL_SIZE
 SCREEN_HEIGHT = GRID_HEIGHT * CELL_SIZE
 
@@ -44,8 +45,10 @@ def draw_grid():
     for y in range(0, SCREEN_HEIGHT, CELL_SIZE):
         pygame.draw.line(SCREEN, BLACK, (0, y), (SCREEN_WIDTH, y))
 
+
 def get_grid_coordinates(mouse_pos):
     return mouse_pos[0] // CELL_SIZE, mouse_pos[1] // CELL_SIZE
+
 
 def draw_path(path, color):
     for i in range(len(path) - 1):
@@ -56,11 +59,13 @@ def draw_path(path, color):
             4
         )
     pygame.display.update()
-    pygame.time.delay(500)
+    pygame.time.delay(1000)
+
 
 def draw_paths(paths):
     for i, path in enumerate(paths):
         threading.Thread(target=draw_path, args=(path, colors[i % len(colors)])).start()
+
 
 def main():
     running = True
@@ -102,9 +107,10 @@ def main():
                 if event.key == pygame.K_SPACE:
                     print("Starts:", starts)
                     print("Goals:", goals)
-                    cbs = CBSSolver(map_array, starts, goals)
-                    paths = cbs.findSolution(disjoint=True)
-                    print(paths)
+                    # cbs = CBSSolver(map_array, starts, goals)
+                    # paths = cbs.findSolution(disjoint=True)
+                    PPS = PrioritizedPlanningSolver(map_array,starts,goals)
+                    paths = PPS.find_solution()
                     draw_paths(paths)
 
         pygame.display.flip()
