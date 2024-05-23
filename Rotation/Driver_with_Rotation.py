@@ -158,6 +158,7 @@ while running:
                 PPS = PrioritizedPlanningSolver(map_array, starts, goals)
                 paths = PPS.find_solution()
                 print("Paths in driver:", paths)
+                print("Time Taken to compute the paths: ",PPS.CPU_time)
 
                 clock = pygame.time.Clock()
                 timestep = 0
