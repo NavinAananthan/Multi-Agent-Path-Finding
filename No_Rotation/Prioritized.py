@@ -1,4 +1,4 @@
-from Single_Agent_Planner_with_Rotation import *
+from Single_Agent_Planner import *
 import time as timer
 
 class PrioritizedPlanningSolver(object):

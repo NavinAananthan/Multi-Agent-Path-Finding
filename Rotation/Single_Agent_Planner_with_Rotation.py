@@ -94,7 +94,7 @@ def is_constrained(curr_loc, next_loc, next_time, constraint_table):
 
 
 
-def build_constarint_table(constraints, agent):
+def build_constraint_table(constraints, agent):
     '''
     Return a table that constains the list of constraints of the given agent for each time step.
     '''
@@ -176,7 +176,7 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
     closed_list = dict()
     h_value = h_values[start_loc]['cost']
     #print(h_values)
-    c_table = build_constarint_table(constraints,agent)
+    c_table = build_constraint_table(constraints,agent)
 
 
     root = {'loc':start_loc,
@@ -229,5 +229,3 @@ def a_star(grid_map, start_loc, goal_loc, h_values, agent, constraints):
 
     return None
 
-
-                

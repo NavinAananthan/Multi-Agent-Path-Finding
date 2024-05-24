@@ -7,7 +7,7 @@ import numpy as np
 import pygame
 import threading
 import math
-from Prioritized_with_Rotation import *
+from Prioritized import *
 
 CELL_SIZE = 50
 GRID_WIDTH = 10
