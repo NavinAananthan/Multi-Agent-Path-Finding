@@ -12,8 +12,8 @@ class PrioritizedPlanningSolver(object):
         
         Parameters:
         my_map (list): List of lists specifying obstacle positions.
-        starts (list): List of start locations [(x1, y1), (x2, y2), ...].
-        goals (list): List of goal locations [(x1, y1), (x2, y2), ...].
+        starts (list): List of start locations [(x1, y1), (x2, y2), ..., (xn, yn)].
+        goals (list): List of goal locations [(x1, y1), (x2, y2), ..., (xn, yn)].
         max_time (int): Maximum time allowed for planning.
         """
         self.my_map = my_map
@@ -61,6 +61,8 @@ class PrioritizedPlanningSolver(object):
                             'timestep': time,
                             'final': time == len(path) - 1
                         })
+                        
+
                         # Edge Constraint (other agents cannot move from `loc` to `next_loc` at `time + 1`)
                         if time < len(path) - 1:
                             next_loc = path[time + 1][0]
@@ -70,15 +72,16 @@ class PrioritizedPlanningSolver(object):
                                 'timestep': time + 1,
                                 'final': False
                             })
+                        
                         # Non-passing Constraint (agents cannot swap positions)
                         if time > 0:
                             prev_loc = path[time - 1][0]
-                            constraints.append({
-                                'agent': a,
-                                'loc': [prev_loc, loc[0]],
-                                'timestep': time,
-                                'final': False
-                            })
+                            # constraints.append({
+                            #     'agent': a,
+                            #     'loc': [prev_loc, loc[0]],
+                            #     'timestep': time,
+                            #     'final': False
+                            # })
                             # Stronger non-passing Constraint (agents cannot pass each other at the same location)
                             constraints.append({
                                 'agent': a,
@@ -86,6 +89,7 @@ class PrioritizedPlanningSolver(object):
                                 'timestep': time,
                                 'final': False
                             })
+            print(constraints)
 
         self.CPU_time = timer.time() - start_time
         return result
