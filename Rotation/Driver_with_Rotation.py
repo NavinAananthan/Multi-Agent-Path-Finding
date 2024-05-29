@@ -9,8 +9,8 @@ pygame.init()
 
 # Define constants
 CELL_SIZE = 50
-GRID_WIDTH = 10
-GRID_HEIGHT = 10
+GRID_WIDTH = 7
+GRID_HEIGHT = 7
 SCREEN_WIDTH = GRID_WIDTH * CELL_SIZE
 SCREEN_HEIGHT = GRID_HEIGHT * CELL_SIZE
 map_width = 20
@@ -49,7 +49,7 @@ colors = [PURPLE, TURQUOISE, BLACK, RED, ORANGE, PINK, BROWN, GREY, CYAN, MAGENT
           OLIVE, MAROON, SILVER, GOLD, VIOLET, INDIGO, TEAL, SALMON, CORAL, PLUM, KHAKI, YELLOW]
 
 # Map and paths
-map_array = np.zeros((map_height, map_width), dtype=int)
+map_array = np.zeros((GRID_HEIGHT, GRID_WIDTH), dtype=int)
 starts = []
 goals = []
 
@@ -159,7 +159,7 @@ while running:
                 print("Goals:", goals)
                 PPS = PrioritizedPlanningSolver(map_array, starts, goals)
                 paths = PPS.find_solution()
-                print("Paths in driver:", paths)
+                #print("Paths in driver:", paths)
                 print("Time Taken to compute the paths: ",PPS.CPU_time)
 
                 clock = pygame.time.Clock()

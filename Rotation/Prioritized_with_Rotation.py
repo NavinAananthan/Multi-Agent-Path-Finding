@@ -2,13 +2,19 @@ from Single_Agent_Planner_with_Rotation import *
 import time as timer
 
 class PrioritizedPlanningSolver(object):
-    """A planner that plans for each robot sequentially."""
+    """
+    A planner that plans for each robot sequentially.
+    """
 
     def __init__(self, my_map, starts, goals, max_time=None):
         """
-        my_map      - list of lists specifying obstacle positions
-        starts      - [(x1, y1), (x2, y2), ...] list of start locations
-        goals       - [(x1, y1), (x2, y2), ...] list of goal locations
+        Initialize the Prioritized Planning Solver.
+        
+        Parameters:
+        my_map (list): List of lists specifying obstacle positions.
+        starts (list): List of start locations [(x1, y1), (x2, y2), ...].
+        goals (list): List of goal locations [(x1, y1), (x2, y2), ...].
+        max_time (int): Maximum time allowed for planning.
         """
         self.my_map = my_map
         self.starts = starts
@@ -25,7 +31,12 @@ class PrioritizedPlanningSolver(object):
             self.heuristics.append(compute_heuristics(my_map, goal))
 
     def find_solution(self):
-        """Finds paths for all agents from their start locations to their goal locations."""
+        """
+        Finds paths for all agents from their start locations to their goal locations.
+        
+        Returns:
+        list: List of paths for each agent.
+        """
         start_time = timer.time()
         result = []
         constraints = []
@@ -41,7 +52,6 @@ class PrioritizedPlanningSolver(object):
             result.append(path)
 
             for time, loc in enumerate(path):
-                # Create a new constraint with the current path location for all agents except the current one
                 for a in range(self.num_of_agents):
                     if a != i:
                         # Vertex Constraint (other agents cannot be at `loc` at `time`)
