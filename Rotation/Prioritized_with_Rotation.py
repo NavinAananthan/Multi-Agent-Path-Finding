@@ -70,6 +70,22 @@ class PrioritizedPlanningSolver(object):
                                 'timestep': time + 1,
                                 'final': False
                             })
+                        # Non-passing Constraint (agents cannot swap positions)
+                        if time > 0:
+                            prev_loc = path[time - 1][0]
+                            constraints.append({
+                                'agent': a,
+                                'loc': [prev_loc, loc[0]],
+                                'timestep': time,
+                                'final': False
+                            })
+                            # Stronger non-passing Constraint (agents cannot pass each other at the same location)
+                            constraints.append({
+                                'agent': a,
+                                'loc': [loc[0], prev_loc],
+                                'timestep': time,
+                                'final': False
+                            })
 
         self.CPU_time = timer.time() - start_time
         return result

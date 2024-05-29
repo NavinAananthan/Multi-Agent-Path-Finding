@@ -1,7 +1,5 @@
 import heapq
 
-
-
 def move(loc, direction):
     """
     Calculate the new location by moving in the given direction.
